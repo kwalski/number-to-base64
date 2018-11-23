@@ -36,6 +36,11 @@ npm install number-to-base64
 
 ## API
 
+### `setRadix64(string)`
+Takes a 64 character string containing the characters you would like to use, default is:
+`'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'`
+
+
 #### `ntob(number)`
 Takes a number, discards a fractional part and returns a string.
 

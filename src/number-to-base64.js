@@ -8,9 +8,16 @@ const s2b = new Array(123);
 for (let i = 0; i < alphabet.length; i++) {
   s2b[alphabet.charCodeAt(i)] = i;
 }
-const setRadix64=(radix){
-    alphabet=radix;
-}
+const setRadix64 = (radix) => {
+  if (radix.length !== 64) {
+    console.log('radix is not 64 char');
+    return;
+  }
+  alphabet = radix;
+  for (let i = 0; i < alphabet.length; i++) {
+    s2b[alphabet.charCodeAt(i)] = i;
+  }
+};
 // number to base64
 const ntob = (number) => {
   if (number < 0) return `-${ntob(-number)}`;
@@ -47,4 +54,4 @@ const bton = (base64) => {
   return sign ? -number : number;
 };
 
-export default { ntob, bton };
+export default { ntob, bton, setRadix64 };
