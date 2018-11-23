@@ -1,5 +1,4 @@
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-
+let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 // binary to string lookup table
 const b2s = alphabet.split('');
 
@@ -9,7 +8,9 @@ const s2b = new Array(123);
 for (let i = 0; i < alphabet.length; i++) {
   s2b[alphabet.charCodeAt(i)] = i;
 }
-
+const setRadix64=(radix){
+    alphabet=radix;
+}
 // number to base64
 const ntob = (number) => {
   if (number < 0) return `-${ntob(-number)}`;

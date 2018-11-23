@@ -7,7 +7,7 @@
 const expect = require('chai').expect;
 const { ntob, bton } = require('../dist/number-to-base64.min.js');
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split('');
+const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
 
 const modulo = (number) => {
   if (number < 0) return `-${modulo(-number)}`;

@@ -1,8 +1,8 @@
 {
-  "name": "number-to-base64",
+  "name": "string64",
   "description": "Extremely fast number to radix64 converting",
   "author": {
-    "name": "kutuluk"
+    "name": "Gi"
   },
   "keywords": [
     "number",
@@ -12,13 +12,13 @@
     "encoder",
     "decoder"
   ],
-  "homepage": "https://github.com/kutuluk/number-to-base64",
+  "homepage": "https://github.com/kwalski/number-to-base64",
   "bugs": {
-    "url": "https://github.com/kutuluk/number-to-base64/issues"
+    "url": "https://github.com/kwalski/number-to-base64/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:kutuluk/number-to-base64.git"
+    "url": "git@github.com:kwalski/number-to-base64.git"
   },
   "license": "MIT",
   "version": "1.0.5",
