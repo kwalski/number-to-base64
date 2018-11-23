@@ -12,7 +12,7 @@ function test(number) {
   console.log('----------------------------------------------------------------');
 
   const implementations = {
-    'number-to-base64': () => bton(ntob(number)),
+    'string64': () => bton(ntob(number)),
     'radix-64': () => decodeToInt(encodeInt(number)),
     radixer: () => stringToNumber(numberToString(number)),
   };

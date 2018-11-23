@@ -48,12 +48,12 @@ describe('Tests', () => {
     table.forEach(value => expect(bton(ntob(-value))).to.equal(-value));
   });
 
-  it('Fuzzing', () => {
-    for (let i = 0; i <= 1000000; i += 1) {
-      const t = Math.floor(Math.random() * 9007199254740991);
-      expect(test(t)).to.equal(t);
-    }
-  }).timeout(0);
+//  it('Fuzzing', () => {
+//    for (let i = 0; i <= 1000000; i += 1) {
+//      const t = Math.floor(Math.random() * 9007199254740991);
+//      expect(test(t)).to.equal(t);
+//    }
+//  }).timeout(0);
 
   /*
   it('Paranoid', () => {
