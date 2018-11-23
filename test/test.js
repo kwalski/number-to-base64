@@ -7,7 +7,7 @@
 const expect = require('chai').expect;
 const { ntob, bton } = require('../dist/number-to-base64.min.js');
 
-const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'.split('');
+const alphabet = '$0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'.split('');
 
 const modulo = (number) => {
   if (number < 0) return `-${modulo(-number)}`;
@@ -48,12 +48,12 @@ describe('Tests', () => {
     table.forEach(value => expect(bton(ntob(-value))).to.equal(-value));
   });
 
-//  it('Fuzzing', () => {
-//    for (let i = 0; i <= 1000000; i += 1) {
-//      const t = Math.floor(Math.random() * 9007199254740991);
-//      expect(test(t)).to.equal(t);
-//    }
-//  }).timeout(0);
+  it('Fuzzing', () => {
+    for (let i = 0; i <= 1000000; i += 1) {
+      const t = Math.floor(Math.random() * 9007199254740991);
+      expect(test(t)).to.equal(t);
+    }
+  }).timeout(0);
 
   /*
   it('Paranoid', () => {

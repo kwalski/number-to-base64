@@ -1,8 +1,10 @@
 
 # string64
-This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number-to-base64) with 
-- default alphabet set changed to use `-` and `_` instead of `+` and `/` to make strings web safe
-- added `setRadix64` function to override your own 64 char set
+This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number-to-base64) with the following changes:
+
+- Default character set changed to use `$` and `_` instead of `+` and `/` to make strings web safe
+- Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535 -> the encoded string will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase **
+- Added `setRadix64` function to override your own 64 char set
 
 Extremely fast number to radix64 converting.
 
@@ -17,16 +19,16 @@ Extremely fast number to radix64 converting.
 
 Number           | Result
 -----------------|------------
-0                | A
-63               | _
-64               | BA
-4095             | __
-262143           | ___
-16777215         | ____
-68719476735      | ______
-281474976710655  | ________
-9007199254740991 | f________
--9007199254740991| -f________
+0                | $
+63               | z
+64               | 0$
+4095             | zz
+262143           | zzz
+16777215         | zzzz
+68719476735      | zzzzzz
+281474976710655  | zzzzzzzz
+9007199254740991 | Uzzzzzzzz
+-9007199254740991| -Uzzzzzzzz
 
 ## Installation
 
@@ -38,7 +40,7 @@ npm install number-to-base64
 
 ### `setRadix64(string)`
 Takes a 64 character string containing the characters you would like to use, default is:
-`'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'`
+`'$0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'`
 
 
 #### `ntob(number)`
@@ -64,7 +66,7 @@ Takes a string and returns a number.
 
 Output
 ```
--9007199254740991 -> "-f________" -> -9007199254740991 (true)
+-9007199254740991 -> "-Uzzzzzzzz" -> -9007199254740991 (true)
 ```
 
 ### ES6
@@ -84,71 +86,70 @@ const test = (number) => {
 
 Output
 ```
-0 -> "A" -> 0 (true)
-1 -> "B" -> 1 (true)
--1 -> "-B" -> -1 (true)
-255 -> "D_" -> 255 (true)
-65535 -> "P__" -> 65535 (true)
-4294967295 -> "D_____" -> 4294967295 (true)
-4294967296 -> "EAAAAA" -> 4294967296 (true)
-1516612803738 -> "WEdKtya" -> 1516612803738 (true)
-9007199254740991 -> "f________" -> 9007199254740991 (true)
+0 -> "$" -> 0 (true)
+1 -> "0" -> 1 (true)
+-1 -> "-0" -> -1 (true)
+255 -> "2z" -> 255 (true)
+65535 -> "Ezz" -> 65535 (true)
+4294967295 -> "2zzzzz" -> 4294967295 (true)
+4294967296 -> "3$$$$$" -> 4294967296 (true)
+9007199254740991 -> "Uzzzzzzzz" -> 9007199254740991 (true)
 ```
 
 ## Benchmarking
 
 ```
-Converting 1 -> "B" -> 1
+Converting 1 -> "0" -> 1
 ----------------------------------------------------------------
-string64 x 12,522,220 ops/sec ±1.16% (79 runs sampled)
-        radix-64 x 5,646,873 ops/sec ±0.53% (90 runs sampled)
-         radixer x 9,247,606 ops/sec ±1.01% (88 runs sampled)
+string64 x 45,087,908 ops/sec ±3.14% (85 runs sampled)
+radix-64 x 12,880,377 ops/sec ±0.51% (87 runs sampled)
+radixer x 22,479,004 ops/sec ±0.50% (90 runs sampled)
 
-Converting -1 -> "-B" -> -1
+Converting -1 -> "-0" -> -1
 ----------------------------------------------------------------
-string64 x 7,085,183 ops/sec ±0.65% (86 runs sampled)
-        radix-64 - error
-         radixer - error
+string64 x 20,561,116 ops/sec ±0.82% (90 runs sampled)
+radix-64 - error
+radixer - error
 
-Converting 255 -> "D_" -> 255
+Converting 255 -> "2z" -> 255
 ----------------------------------------------------------------
-string64 x 7,105,757 ops/sec ±1.04% (86 runs sampled)
-        radix-64 x 1,625,993 ops/sec ±0.75% (88 runs sampled)
-         radixer x 3,096,584 ops/sec ±1.20% (89 runs sampled)
+string64 x 18,177,702 ops/sec ±0.55% (92 runs sampled)
+radix-64 x 3,450,801 ops/sec ±0.67% (97 runs sampled)
+radixer x 7,315,322 ops/sec ±0.45% (96 runs sampled)
 
-Converting 65535 -> "P__" -> 65535
+Converting 65535 -> "Ezz" -> 65535
 ----------------------------------------------------------------
-string64 x 5,823,782 ops/sec ±1.11% (88 runs sampled)
-        radix-64 x 1,394,050 ops/sec ±1.40% (90 runs sampled)
-         radixer x 1,998,073 ops/sec ±0.55% (87 runs sampled)
+string64 x 11,327,810 ops/sec ±0.45% (90 runs sampled)
+radix-64 x 2,779,044 ops/sec ±1.83% (86 runs sampled)
+radixer x 5,150,674 ops/sec ±0.50% (95 runs sampled)
 
-Converting 4294967295 -> "D_____" -> 4294967295
+Converting 4294967295 -> "2zzzzz" -> 4294967295
 ----------------------------------------------------------------
-string64 x 3,510,849 ops/sec ±0.52% (88 runs sampled)
-        radix-64 x 941,715 ops/sec ±1.35% (91 runs sampled)
-         radixer x 1,003,687 ops/sec ±0.54% (91 runs sampled)
+string64 x 6,828,913 ops/sec ±0.90% (92 runs sampled)
+radix-64 x 1,941,045 ops/sec ±0.97% (90 runs sampled)
+radixer x 2,761,589 ops/sec ±1.90% (89 runs sampled)
 
-Converting 4294967296 -> "EAAAAA" -> 4294967296
+Converting 4294967296 -> "3$$$$$" -> 4294967296
 ----------------------------------------------------------------
-string64 x 3,284,146 ops/sec ±1.20% (89 runs sampled)
-        radix-64 x 931,296 ops/sec ±2.61% (87 runs sampled)
-         radixer x 1,561,844 ops/sec ±1.44% (85 runs sampled)
+string64 x 6,593,466 ops/sec ±0.63% (92 runs sampled)
+radix-64 x 1,960,594 ops/sec ±1.00% (94 runs sampled)
+radixer x 2,859,399 ops/sec ±0.70% (95 runs sampled)
 
-Converting 1516613323746 -> "WEdMsvi" -> 1516613323746
+Converting 1542968713928 -> "LS$5XA7" -> 1542968713928
 ----------------------------------------------------------------
-string64 x 3,041,711 ops/sec ±0.62% (90 runs sampled)
-        radix-64 x 866,496 ops/sec ±1.53% (89 runs sampled)
-         radixer x 1,143,080 ops/sec ±0.60% (89 runs sampled)
+string64 x 5,890,463 ops/sec ±0.72% (93 runs sampled)
+radix-64 x 1,790,768 ops/sec ±0.75% (94 runs sampled)
+radixer x 2,561,236 ops/sec ±0.70% (94 runs sampled)
 
-Converting 9007199254740991 -> "f________" -> 9007199254740991
+Converting 9007199254740991 -> "Uzzzzzzzz" -> 9007199254740991
 ----------------------------------------------------------------
-string64 x 2,490,628 ops/sec ±0.71% (89 runs sampled)
-        radix-64 x 721,063 ops/sec ±1.29% (86 runs sampled)
-         radixer x 659,930 ops/sec ±0.44% (90 runs sampled)
+string64 x 4,685,536 ops/sec ±1.55% (91 runs sampled)
+radix-64 x 1,463,960 ops/sec ±1.57% (86 runs sampled)
+radixer x 2,004,879 ops/sec ±0.72% (95 runs sampled)
 
-Converting -9007199254740991 -> "-f________" -> -9007199254740991
+Converting -9007199254740991 -> "-Uzzzzzzzz" -> -9007199254740991
 ----------------------------------------------------------------
-string64 x 2,283,304 ops/sec ±1.07% (90 runs sampled)
-        radix-64 - error
-         radixer - error
+string64 x 4,473,233 ops/sec ±0.74% (89 runs sampled)
+radix-64 - error
+radixer - error
 ```
