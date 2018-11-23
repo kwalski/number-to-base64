@@ -3,7 +3,7 @@
 This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number-to-base64) with the following changes:
 
 - Default character set changed to use `$` and `_` instead of `+` and `/` to make strings web safe
-- Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535 -> the encoded string will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase **
+- Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535, their encoded strings will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase**
 - Added `setRadix64` function to override your own 64 char set
 
 Extremely fast number to radix64 converting.
@@ -33,7 +33,7 @@ Number           | Result
 ## Installation
 
 ```sh
-npm install number-to-base64
+npm install string64
 ```
 
 ## API
