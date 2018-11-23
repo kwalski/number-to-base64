@@ -6,7 +6,7 @@ This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number
 
 Extremely fast number to radix64 converting.
 
-[![NPM version](https://img.shields.io/npm/v/string64.svg?style=flat-square)](https://www.npmjs.com/package/string64)[![Build Status](https://img.shields.io/travis/kwalski/string64/master.svg?style=flat-square)](https://travis-ci.org/kwalski/string64)
+[![NPM version](https://img.shields.io/npm/v/string64.svg?style=flat-square)](https://www.npmjs.com/package/string64)[![Build Status](https://img.shields.io/travis/kwalski/number-to-base64/master.svg?style=flat-square)](https://travis-ci.org/kwalski/number-to-base64)
 
 ## Features
 
