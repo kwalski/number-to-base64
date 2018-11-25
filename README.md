@@ -1,10 +1,10 @@
 
 # string64
 This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number-to-base64) with the following changes:
-
-- Default character set changed to use `$` and `_` instead of `+` and `/` to make strings web safe
+- It provides a String64 class can be initialized with custom radix
+- Default 64 character set changed to use `$` and `_` instead of `+` and `/` to make strings web safe
 - Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535, their encoded strings will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase**
-- Added `setRadix64` function to override your own 64 char set
+- `timeseries(x)` function does exactly that
 
 Extremely fast number to radix64 converting.
 
@@ -38,16 +38,28 @@ npm install string64
 
 ## API
 
-### `setRadix64(string)`
-Takes a 64 character string containing the characters you would like to use, default is:
-`'$0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'`
+###  `String64(radix)`
+Initialize String64 object with optional custom radix.
+Default radix is `'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz'`
 
+Eg.,
+```
+var str64 = new String64();
+```
 
-#### `ntob(number)`
+#### `toString64(number)`
 Takes a number, discards a fractional part and returns a string.
 
-#### `bton(base64)`
+Eg.,
+```
+str64.toString64(0) // "$"
+```
+
+#### `toNumber(base64Encoded)`
 Takes a string and returns a number.
+
+#### `timeseries(randChars: int)`
+This is useful for generating time series keys. It encodes current time with microsecond accuracy. Optional randChars is the number of random characters that you wish to suffix to reduce collision possibility. 
 
 
 ## Usage
@@ -58,8 +70,8 @@ Takes a string and returns a number.
 
 <script>
   var number = -9007199254740991;
-  var base64 = numberToBase64.ntob(number);
-  var back = numberToBase64.bton(base64);
+  var base64 = String64().toString64(number);
+  var back = String64().toNumber(base64);
   console.log('%s -> "%s" -> %s (%s)', number, base64, back, back === number);
 </script>
 ```
@@ -71,11 +83,11 @@ Output
 
 ### ES6
 ```javascript
-import { ntob, bton } from 'string64';
+import { String64 } from 'string64';
 
 const test = (number) => {
-  const base64 = ntob(number);
-  const back = bton(base64);
+  var base64 = String64().toString64(number);
+  var back = String64().toNumber(base64);
   console.log('%s -> "%s" -> %s (%s)', number, base64, back, back === number);
 };
 
@@ -101,55 +113,55 @@ Output
 ```
 Converting 1 -> "0" -> 1
 ----------------------------------------------------------------
-string64 x 45,087,908 ops/sec ±3.14% (85 runs sampled)
-radix-64 x 12,880,377 ops/sec ±0.51% (87 runs sampled)
-radixer x 22,479,004 ops/sec ±0.50% (90 runs sampled)
+string64 x 46,218,231 ops/sec ±0.52% (89 runs sampled)
+radix-64 x 12,790,546 ops/sec ±0.92% (86 runs sampled)
+radixer x 22,360,105 ops/sec ±0.71% (89 runs sampled)
 
 Converting -1 -> "-0" -> -1
 ----------------------------------------------------------------
-string64 x 20,561,116 ops/sec ±0.82% (90 runs sampled)
+string64 x 19,572,123 ops/sec ±1.05% (91 runs sampled)
 radix-64 - error
 radixer - error
 
 Converting 255 -> "2z" -> 255
 ----------------------------------------------------------------
-string64 x 18,177,702 ops/sec ±0.55% (92 runs sampled)
-radix-64 x 3,450,801 ops/sec ±0.67% (97 runs sampled)
-radixer x 7,315,322 ops/sec ±0.45% (96 runs sampled)
+string64 x 16,833,569 ops/sec ±1.22% (89 runs sampled)
+radix-64 x 3,419,126 ops/sec ±0.70% (94 runs sampled)
+radixer x 6,832,498 ops/sec ±2.03% (88 runs sampled)
 
 Converting 65535 -> "Ezz" -> 65535
 ----------------------------------------------------------------
-string64 x 11,327,810 ops/sec ±0.45% (90 runs sampled)
-radix-64 x 2,779,044 ops/sec ±1.83% (86 runs sampled)
-radixer x 5,150,674 ops/sec ±0.50% (95 runs sampled)
+string64 x 8,787,294 ops/sec ±3.61% (74 runs sampled)
+radix-64 x 2,546,301 ops/sec ±3.57% (85 runs sampled)
+radixer x 5,193,870 ops/sec ±1.45% (91 runs sampled)
 
 Converting 4294967295 -> "2zzzzz" -> 4294967295
 ----------------------------------------------------------------
-string64 x 6,828,913 ops/sec ±0.90% (92 runs sampled)
-radix-64 x 1,941,045 ops/sec ±0.97% (90 runs sampled)
-radixer x 2,761,589 ops/sec ±1.90% (89 runs sampled)
+string64 x 5,983,529 ops/sec ±2.45% (86 runs sampled)
+radix-64 x 1,990,162 ops/sec ±0.20% (95 runs sampled)
+radixer x 2,950,718 ops/sec ±0.78% (94 runs sampled)
 
 Converting 4294967296 -> "3$$$$$" -> 4294967296
 ----------------------------------------------------------------
-string64 x 6,593,466 ops/sec ±0.63% (92 runs sampled)
-radix-64 x 1,960,594 ops/sec ±1.00% (94 runs sampled)
-radixer x 2,859,399 ops/sec ±0.70% (95 runs sampled)
+string64 x 6,372,082 ops/sec ±0.89% (90 runs sampled)
+radix-64 x 1,944,001 ops/sec ±1.27% (92 runs sampled)
+radixer x 2,848,919 ops/sec ±0.86% (92 runs sampled)
 
-Converting 1542968713928 -> "LS$5XA7" -> 1542968713928
+Converting 1543107555395 -> "LS7NA02" -> 1543107555395
 ----------------------------------------------------------------
-string64 x 5,890,463 ops/sec ±0.72% (93 runs sampled)
-radix-64 x 1,790,768 ops/sec ±0.75% (94 runs sampled)
-radixer x 2,561,236 ops/sec ±0.70% (94 runs sampled)
+string64 x 5,745,787 ops/sec ±0.56% (94 runs sampled)
+radix-64 x 1,824,724 ops/sec ±0.94% (94 runs sampled)
+radixer x 2,596,322 ops/sec ±0.39% (94 runs sampled)
 
 Converting 9007199254740991 -> "Uzzzzzzzz" -> 9007199254740991
 ----------------------------------------------------------------
-string64 x 4,685,536 ops/sec ±1.55% (91 runs sampled)
-radix-64 x 1,463,960 ops/sec ±1.57% (86 runs sampled)
-radixer x 2,004,879 ops/sec ±0.72% (95 runs sampled)
+string64 x 4,612,369 ops/sec ±1.03% (94 runs sampled)
+radix-64 x 1,504,091 ops/sec ±0.36% (94 runs sampled)
+radixer x 1,968,533 ops/sec ±1.13% (91 runs sampled)
 
 Converting -9007199254740991 -> "-Uzzzzzzzz" -> -9007199254740991
 ----------------------------------------------------------------
-string64 x 4,473,233 ops/sec ±0.74% (89 runs sampled)
+string64 x 4,106,927 ops/sec ±1.81% (93 runs sampled)
 radix-64 - error
 radixer - error
 ```

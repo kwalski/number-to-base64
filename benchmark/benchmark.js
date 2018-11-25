@@ -3,16 +3,18 @@
 
 const Benchmark = require('benchmark');
 
-const { ntob, bton } = require('../lib/number-to-base64.js');
+const { String64 } = require('../lib/string64.js');
 const { encodeInt, decodeToInt } = require('radix-64')();
 const { numberToString, stringToNumber } = require('radixer');
 
+const str64=new String64();
+
 function test(number) {
-  console.log('\nConverting %s -> "%s" -> %s', number, ntob(number), number);
+  console.log('\nConverting %s -> "%s" -> %s', number, str64.toString64(number), number);
   console.log('----------------------------------------------------------------');
 
   const implementations = {
-    'string64': () => bton(ntob(number)),
+    'string64': () => str64.toNumber(str64.toString64(number)),
     'radix-64': () => decodeToInt(encodeInt(number)),
     radixer: () => stringToNumber(numberToString(number)),
   };

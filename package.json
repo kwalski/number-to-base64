@@ -22,7 +22,7 @@
   },
   "license": "MIT",
   "version": "1.0.8",
-  "main": "./lib/number-to-base64",
+  "main": "./lib/string64",
   "babel": {
     "presets": [
       [
@@ -37,22 +37,25 @@
       ]
     ],
     "plugins": [
+        "transform-es2015-classes" ,
       "add-module-exports",
       "transform-es2015-modules-umd"
+      
     ]
   },
   "scripts": {
     "eslint": "eslint src/number-to-base64.js",
     "test": "mocha",
     "bench": "node ./benchmark/benchmark.js",
-    "babel": "babel ./src/number-to-base64.js --out-file ./lib/number-to-base64.js",
-    "uglifyjs": "uglifyjs ./lib/number-to-base64.js -o ./dist/number-to-base64.min.js -c -m",
-    "build": "npm run eslint && npm run babel && npm run uglifyjs",
+    "babel": "babel ./src/string64.js --out-file ./lib/string64.js",
+    "uglifyjs": "uglifyjs ./lib/string64.js -o ./dist/string64.min.js -c -m",
+    "build": "npm run babel && npm run uglifyjs",
     "publish-to-npm": "npm install && npm run build && npm test && npm run bench && npm publish --access public"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-plugin-transform-es2015-modules-umd": "^6.24.1",
     "babel-preset-env": "^1.6.0",
     "benchmark": "^2.1.4",
