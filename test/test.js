@@ -66,8 +66,8 @@ describe('Tests', () => {
       table.forEach(value => expect(custStr64.toNumber(custStr64.toString64(value))).to.equal(value));
   });
     
-  it('timeseries',()=>{
-      const ts = str64.timeseries();
+  it('timestamp',()=>{
+      const ts = str64.timestamp();
       const dt = Date.now(); 
       expect((dt-(Math.round(str64.toNumber(ts)/1000)))).to.be.below(1000);
       expect((dt-(Math.round(str64.toNumber(ts)/1000)))).to.be.above(-1000);

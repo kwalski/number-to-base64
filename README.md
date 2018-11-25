@@ -4,7 +4,7 @@ This is a fork from [kutuluk/number-to-base64](https://github.com/kutuluk/number
 - It provides a String64 class can be initialized with custom radix
 - Default 64 character set changed to use `$` and `_` instead of `+` and `/` to make strings web safe
 - Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535, their encoded strings will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase**
-- `timeseries(x)` function does exactly that
+- `timestamp()` function does exactly that, ie., generates timestamp as a compact string which is particularly useful when your keys cannot be number/bigint data type.
 
 Extremely fast number to radix64 converting.
 
@@ -58,7 +58,7 @@ str64.toString64(0) // "$"
 #### `toNumber(base64Encoded)`
 Takes a string and returns a number.
 
-#### `timeseries(randChars: int)`
+#### `timestamp(randChars: int)`
 This is useful for generating time series keys. It encodes current time with microsecond accuracy. Optional randChars is the number of random characters that you wish to suffix to reduce collision possibility. 
 
 

@@ -5,6 +5,10 @@
     "name": "Gi"
   },
   "keywords": [
+    "timestamp",
+    "timeseries",
+    "keys",
+    "toString",
     "number",
     "base64",
     "radix64",

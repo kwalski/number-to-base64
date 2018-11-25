@@ -60,7 +60,7 @@ class String64 {
         return sign ? -number : number;
     }
 
-    timeseries(randomBytes) {
+    timestamp(randomBytes) {
         const d = Date.now();
         const ns = process.hrtime()[1];
         const t = ~~(d / 1000) * 1000000 + ~~(ns / 1000);
