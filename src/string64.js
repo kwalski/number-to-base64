@@ -8,14 +8,14 @@ class String64 {
         } else {
             if (radix.length !== 64) {
                 console.log(
-                    "Incorrect radix length, using default characterset"
+                    "Radix length not 64, using default charset"
                 );
             } else {
                 this.charset = radix;
             }
         }
         this.b2s = this.charset.split("");
-        this.s2b={};
+        this.s2b = {};
         for (let i = 0; i < 64; i++) {
             this.s2b[this.charset.charCodeAt(i)] = i;
         }
@@ -59,19 +59,29 @@ class String64 {
         }
         return sign ? -number : number;
     }
+    
+    
 
     timestamp(randomBytes) {
         const d = Date.now();
         const ns = process.hrtime()[1];
         const t = ~~(d / 1000) * 1000000 + ~~(ns / 1000);
-        let rand = 0;
-        if (randomBytes) {
-            for (let i = 0; i < randomBytes; i++) {
-                rand = rand * 64 + ~~(Math.random() * 64);
-            }
-        }
-        return this.toString64(t) + (randomBytes > 0 ? toString64(rand) : "");
+
+        return (
+            this.toString64(t) +
+            (randomBytes && randomBytes > 0
+                ? (() => {
+                      let rand = '';
+                      if (randomBytes) {
+                          for (let i = 0; i < randomBytes; i++) {
+                              rand = rand + this.toString64(Math.random() * 64);
+                          }
+                      }
+                      return rand;
+                  })()
+                : "")
+        );
     }
-};
+}
 //export default { ntob, bton, timeseries };
 module.exports = { String64 };
