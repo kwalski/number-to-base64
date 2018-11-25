@@ -54,12 +54,12 @@ describe('Tests', () => {
     table.forEach(value => expect(str64.toNumber(str64.toString64(-value))).to.equal(-value));
   });
 
-//  it('Fuzzing', () => {
-//    for (let i = 0; i <= 1000000; i += 1) {
-//      const t = Math.floor(Math.random() * 9007199254740991);
-//      expect(test(t)).to.equal(t);
-//    }
-//  }).timeout(0);
+  it('Fuzzing', () => {
+    for (let i = 0; i <= 1000000; i += 1) {
+      const t = Math.floor(Math.random() * 9007199254740991);
+      expect(test(t)).to.equal(t);
+    }
+  }).timeout(0);
 
   it('radix',() => {
       expect(custStr64.toString64(0)).to.not.equal(str64.toString64(0)); // allowed to fail if the output chars are similar
