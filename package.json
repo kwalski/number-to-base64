@@ -25,7 +25,7 @@
     "url": "git@github.com:kwalski/number-to-base64.git"
   },
   "license": "MIT",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "./lib/string64",
   "babel": {
     "presets": [
