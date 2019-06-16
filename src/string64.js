@@ -21,7 +21,6 @@ class String64 {
 
   // string to binary lookup table
   // 123 == 'z'.charCodeAt(0) + 1
-  static sixtyFour = BigInt(64);
 
   // number to base64
   toString64(number) {
@@ -42,11 +41,12 @@ class String64 {
     //     lo >>>= 6;
     // } while (lo > 0);
     // return left + right;
+    const sixtyFour = BigInt(64);
     let n = BigInt(number);
-    let result = "";
+    let result = n == 0 ? this.charset[0] : "";
     while (n > 0) {
-      result = this.charset[n % String64.sixtyFour] + result;
-      n = n / String64.sixtyFour;
+      result = this.charset[n % sixtyFour] + result;
+      n = n / sixtyFour;
     }
     return result;
   }
@@ -63,11 +63,11 @@ class String64 {
   //   }
 
   toNumber(base64) {
+    const sixtyFour = BigInt(64);
     const l = base64.length;
     let result = BigInt(0);
     for (let i = 0; i < l; i++) {
-      result =
-        result * String64.sixtyFour + BigInt(this.charset.indexOf(base64[i]));
+      result = result * sixtyFour + BigInt(this.charset.indexOf(base64[i]));
     }
     return result;
   }

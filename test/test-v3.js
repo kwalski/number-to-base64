@@ -6,8 +6,7 @@ const table = [
   4294967295,
   4294967296,
   Date.now(),
-  9007199254740991,
-  -111
+  9007199254740991
 ];
 
 const { String64 } = require("../src/string64");

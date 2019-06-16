@@ -8,7 +8,7 @@ This lib uses BigInt, and hence prerequisite is Node.js v10+
 - Default character set has character sequence in increasing ascii value. i.e, as 65534 < 65535, their encoded strings will also respect the comparison "Ezy" < "Ezz" (for positive values). **This makes default string64 encoding ideal for timeseries keys which must always increase**
 - `timestamp()` function does exactly that, ie., generates timestamp as a compact string which is particularly useful when your keys cannot be number/bigint data type.
 
-- currently working for positive numbers only
+- currently working for _positive numbers only_
 
 Extremely fast number to radix64 converting.
 
